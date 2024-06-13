@@ -51,8 +51,8 @@ example16.m: demonstrates STL export of various lenses
 example_ZH.m: demostrates meta-corrector
 
 ## Example_ZH:
-![image](https://github.com/Yu-Chen-Yi/Optometrika/assets/64921305/3c07a2ac-ccba-4004-baa0-576695981aef)
-![image](https://github.com/Yu-Chen-Yi/Optometrika/assets/64921305/723cde0a-933b-4397-9028-401c0a3deeb1)
+![image](https://github.com/Yu-Chen-Yi/Optometrika/assets/64921305/2e6c8630-28a1-4a7d-a684-8b41dd65621b)
+
 ## Example_CY:
 ![image](https://github.com/Yu-Chen-Yi/Optometrika/assets/64921305/3c84f07f-33e8-488d-8c26-bf42cfaef5bb)
 ![image](https://github.com/Yu-Chen-Yi/Optometrika/assets/64921305/0866e02d-4ae8-4dda-8a5e-52a91b50fdf3)
