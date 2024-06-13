@@ -47,3 +47,13 @@ example14.m: tests refraction through a lens with astigmatism (different vertica
 example15.m: simulates a hexagonal array of spherical micro lenses
 
 example16.m: demonstrates STL export of various lenses
+
+example_ZH.m: demostrates meta-corrector
+
+## Example_ZH:
+![image](https://github.com/Yu-Chen-Yi/Optometrika/assets/64921305/3c07a2ac-ccba-4004-baa0-576695981aef)
+![image](https://github.com/Yu-Chen-Yi/Optometrika/assets/64921305/723cde0a-933b-4397-9028-401c0a3deeb1)
+## Example_CY:
+![image](https://github.com/Yu-Chen-Yi/Optometrika/assets/64921305/3c84f07f-33e8-488d-8c26-bf42cfaef5bb)
+![image](https://github.com/Yu-Chen-Yi/Optometrika/assets/64921305/0866e02d-4ae8-4dda-8a5e-52a91b50fdf3)
+
