@@ -131,7 +131,7 @@ classdef Bench < handle
                 alpha = 0.33;
             end
             if nargin < 3 || isempty( draw_fl )
-                draw_fl = 'arrows';
+                draw_fl = 'lines';
             end
             if nargin < 2 || isempty( rays )
                 rays = [];
@@ -140,9 +140,9 @@ classdef Bench < handle
             if new_figure_fl == 1
                 fname = dbstack;  % get debugging info
                 [ ~, fname ] = fname.name; % get the second (original) call function name
-                figure( 'Name', [ 'OPTOMETRIKA: ' fname ], 'NumberTitle', 'Off', ...
+                figure( 'Name', [ 'ChenYi-Yu: ' fname ], 'NumberTitle', 'Off', ...
                     'Position', [ 0 0 1024 1024 ], ...
-                    'Color', 'k' );
+                    'Color', 'w' );
             end
             hold on;
             for i = 1 : self.cnt
@@ -151,7 +151,7 @@ classdef Bench < handle
                     color = [ .25 .25 .25 1 ];
                     obj.draw( color );
                 else
-                    color = [ 1 1 1 alpha ];
+                    color = [ 0 0 0 alpha ];
                     obj.draw( color );
                 end
             end
@@ -186,12 +186,14 @@ classdef Bench < handle
             %if new_figure_fl == 1
                 gca.Clipping = 'off';
                 axis equal vis3d off;
+                goodplot2('','','',14)
+                xlabel('\itz (mm)'); ylabel('\itx (mm)'); zlabel('\ity (mm)'); 
                 %grid on;
-                camlight( 'left' );
-                camlight( 'right' );
-                camlight( 'headlight' );
+%                 camlight( 'left' );
+%                 camlight( 'right' );
+%                 camlight( 'headlight' );
                 view( -54, 54 );
-                lighting phong;
+%                 lighting phong;
                 rotate3d on;
             %end
         end

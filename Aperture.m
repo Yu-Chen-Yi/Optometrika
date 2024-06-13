@@ -3,11 +3,12 @@ classdef Aperture < Surface
     %
     % Member functions:
     %
-    % a = Aperture( r, D ) - object constructor
+    % a = Aperture( r, D ) - object constructor(物件架構)
+    %
     % INPUT:
     % r - 1x3 position vector
-    % D - 2x1 vector (inner diameter, outer diameter) or 4x1 vector (inner
-    % w, innher h, outer w, outer h)
+    % D - 2x1 vector (inner diameter, outer diameter) 
+    %  or 4x1 vector (inner w, innher h, outer w, outer h)
     % OUTPUT:
     % a - aperture object
     %

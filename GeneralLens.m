@@ -74,21 +74,21 @@ classdef GeneralLens < Surface
             [ ang, rad ] = meshgrid( ang, rad );
             
             [ y, z ] = pol2cart( ang, rad );
-            x = self.funch( y, z, self.funca, 0 );
-            S = [ x(:) y(:) z(:) ];
-            
-            % rotate and shift
-            if self.rotang ~= 0
-                S = rodrigues_rot( S, self.rotax, self.rotang );
-            end
-            x(:) = S( :, 1 ) + self.r( 1 );
-            y(:) = S( :, 2 ) + self.r( 2 );
-            z(:) = S( :, 3 ) + self.r( 3 );
-            
-            c = repmat( reshape( color( 1:3 ), [ 1 1 3 ] ), size( x, 1 ), size( x, 2 ), 1 );
-            h = surf( x, y, z, c, ...
-                'EdgeColor', 'none', 'FaceLighting','phong', 'FaceColor', 'interp', 'FaceAlpha', color(4), ...
-                'AmbientStrength', 0., 'SpecularStrength', 1 ); % grey color, shiny
+%             x = self.funch( y, z, self.funca, 0 );
+%             S = [ x(:) y(:) z(:) ];
+%             
+%             % rotate and shift
+%             if self.rotang ~= 0
+%                 S = rodrigues_rot( S, self.rotax, self.rotang );
+%             end
+%             x(:) = S( :, 1 ) + self.r( 1 );
+%             y(:) = S( :, 2 ) + self.r( 2 );
+%             z(:) = S( :, 3 ) + self.r( 3 );
+%             
+%             c = repmat( reshape( color( 1:3 ), [ 1 1 3 ] ), size( x, 1 ), size( x, 2 ), 1 );
+%             h = surf( x, y, z, c, ...
+%                 'EdgeColor', 'none', 'FaceLighting','phong', 'FaceColor', 'interp', 'FaceAlpha', color(4), ...
+%                 'AmbientStrength', 0., 'SpecularStrength', 1 ); % grey color, shiny
         end
         
     end

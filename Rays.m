@@ -277,6 +277,10 @@ classdef Rays
                     % distribute over the area
                     self.r = pos + p;
                     dir = repmat( dir, self.cnt, 1 );
+                    d = pos(:,1) - self.r(:,1);
+                    nor = d./dir(:,1);
+                    self.r(:,1) = self.r(:,1) + nor.*dir(:,1);
+                    self.r(:,2) = self.r(:,2) + nor.*dir(:,2);
                     self.n = dir;
                 elseif strcmp( geometry, 'source' ) || strcmp( geometry, 'source-Lambert' ) % assume p array at dir, source at pos.
                     self.r = pos;
@@ -328,7 +332,10 @@ classdef Rays
                          0, 'Color', unique_colors( i, : ), 'ShowArrowHead', 'off' );
             end
         end
-         
+        
+        function draw_CY( self )
+            vis = self.I ~= 0;
+        end
         
         function [ rays_out, nrms ] = intersection( self, surf )
             % instantiate Rays object
@@ -418,10 +425,22 @@ classdef Rays
                         outs = self.I == 0;
                         if exist( 'fminunc', 'file' ) % requires optimization toolbox
                             options = optimoptions( 'fminunc', 'Algorithm', 'quasi-newton', 'Display', 'off', 'Diagnostics', 'off' );
+                            % 定義優化器的選項
+% options = optimset('MaxIter', 100, 'TolFun', 1e-6);
+% 
+% % 設定變量的上界和下界
+% lb = -0.01;  % 下界
+% ub = 0.01;   % 上界
+% 
+% % 將上界和下界添加到優化器選項中
+% options.LowerBound = lb;
+% options.UpperBound = ub;
+
+% 執行優化
                             parfor i = 1 : self.cnt % run parallel computing
                                 % for i = 1 : self.cnt % run parallel computing
                                 if outs( i ) == 0 % don't process lost rays
-                                    [ d, fval ] = fminunc( @dist2, 20, options, r_in( i, : ), e( i, : ), surf );
+                                    [ d, fval ] = fminunc( @dist2, 0, options, r_in( i, : ), e( i, : ), surf );
                                     if fval > 1e-8 % didn't intersect with the surface
                                         outs( i ) = 1;
                                         rinter( i, : ) = Inf;
@@ -730,7 +749,21 @@ classdef Rays
 %                         axis equal vis3d; xlabel( 'x' ), ylabel( 'y' ), zlabel( 'z' );
 %                     end
                     rays_out.r = rays_out.r + repmat( surf.r, self.cnt, 1 );
-                    
+                    case { 'Binary' }
+                        darray = surf.r(1)-rays_out.r(:,1); %計算需要輸入點的z傳遞到Binary面的z距離
+                        rays_out.r = rays_out.r + rays_out.n .* darray./rays_out.n(:,1); %將所有輸入光束+法向量*距離=傳遞後的r(z,x,y)
+                      
+                        [kx,ky] = binarygrad(rays_out.r(:,2),rays_out.r(:,3),surf.avec);
+                        k0 = 2*pi/(rays_out.w(1)*1e3);
+                        kx_n = kx/k0;
+                        ky_n = ky/k0;
+                        theta_xin = atand(rays_out.n(:,2)./rays_out.n(:,1));
+                        theta_yin = atand(rays_out.n(:,3)./rays_out.n(:,1));
+                        theta_xout = asind((rays_out.nrefr.*sind(theta_xin) + kx_n)./rays_out.att);
+                        theta_yout = asind((rays_out.nrefr.*sind(theta_yin) + ky_n)./rays_out.att);
+                        rays_out.n(:,2) = tand(theta_xout);
+                        rays_out.n(:,3) = tand(theta_yout);
+                        nrms = rays_out.n;
                 otherwise
                     error( [ 'Surface ' class( surf ) ' is not defined!' ] );
             end
@@ -814,7 +847,9 @@ classdef Rays
                         refraction_loss( tot ) = 0; %1;
                         rays_out.nrefr( tot ) = refrindx( self.w( tot ), med1 ); % refractive index before the surface
                         rays_out.I( ~miss ) = ( 1 - refraction_loss( ~miss ) ) .* rays_out.I( ~miss ); % intensity of the outcoming rays
-                    end                     
+                    end
+                case {'Binary'}
+                    
                 otherwise
                     error( [ 'Surface ' class( surf ) ' is not defined!' ] );
             end
